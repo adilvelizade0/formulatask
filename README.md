@@ -1,27 +1,24 @@
-# React + TypeScript + Vite
+# Task For Lucid Dreams
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### Screenshots
+![alt text](https://ik.imagekit.io/adilvalizada/Task/CleanShot%202023-10-28%20at%2015.22.53@2x.png?updatedAt=1698499885108)
+![alt text](https://ik.imagekit.io/adilvalizada/Task/CleanShot%202023-10-28%20at%2015.20.21@2x.png?updatedAt=1698499885017)
+![alt text](https://ik.imagekit.io/adilvalizada/Task/CleanShot%202023-10-28%20at%2015.28.42@2x.png?updatedAt=1698499884930)
+![alt text](https://ik.imagekit.io/adilvalizada/Task/CleanShot%202023-10-28%20at%2015.29.03@2x.png?updatedAt=1698499884744)
 
-Currently, two official plugins are available:
+### Features :
+* managing local state in Zustand
+* manage API state in React Query - Use this endpoint for autocomplete suggestions in react query
+* Supporting operands between tags - (+,-,*,(,),^,/…..)
+* Supporting to writing between tags
+* Deleting a TAG
+* Autocomplete suggestions - Support autocomplete after an oprand was written
+* Editing in each tag the (x) sign (Writing inside the tag as an input) - See pry in tag editing
+* Calculating values is a bonus (Assign some dummy variables values and accept the operations.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Installation
 
-## Expanding the ESLint configuration
+Install the dependencies and devDependencies and start the server.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+``` pnpm install ```
+``` pnpm dev ```
