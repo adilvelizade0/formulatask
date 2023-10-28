@@ -7,6 +7,10 @@ import {
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import { type Formula } from "../../App.tsx";
 import { useQuery } from "react-query";
+import useFormulaBoxStore, {
+  type FormulaBox,
+} from "../../zustand/formulas.state.ts";
+import { evaluate } from "mathjs";
 
 const operators = [
   {
@@ -61,45 +65,58 @@ const template = (
   return (
     <div className="d-flex align-items-center">
       <div className="pe-2">{item.name}</div>
-      <div>
-        {item.isShow ? (
-          <input
-            autoFocus={true}
-            style={{
-              width: "30px",
-            }}
-            value={item.value}
-            onChange={(e) => {
-              changeValue(item.id, e.target.value);
-            }}
-            onBlur={() => {
-              toggleShowProperty(item.id);
-            }}
-            onKeyUp={(e) => {
-              if (e.key === "Enter") {
+      {item.category === "operators" ? (
+        <> </>
+      ) : (
+        <div>
+          {item.isShow ? (
+            <input
+              autoFocus={true}
+              style={{
+                width: "30px",
+              }}
+              value={item.value}
+              onChange={(e) => {
+                changeValue(item.id, e.target.value);
+              }}
+              onBlur={() => {
                 toggleShowProperty(item.id);
-              }
-            }}
-          />
-        ) : (
-          <button
-            style={{
-              border: "none",
-              backgroundColor: "transparent",
-            }}
-            onClick={() => {
-              toggleShowProperty(item.id);
-            }}
-          >
-            [{item.value}]
-          </button>
-        )}
-      </div>
+              }}
+              onKeyUp={(e) => {
+                if (e.key === "Enter") {
+                  toggleShowProperty(item.id);
+                }
+              }}
+            />
+          ) : (
+            <button
+              style={{
+                border: "none",
+                backgroundColor: "transparent",
+              }}
+              onClick={() => {
+                toggleShowProperty(item.id);
+              }}
+            >
+              [{item.value}]
+            </button>
+          )}
+        </div>
+      )}
     </div>
   );
 };
 
-const FormulaInput: FC = (): JSX.Element => {
+type FormulaInput = {
+  formulaData: FormulaBox;
+};
+
+const FormulaInput: FC<FormulaInput> = ({ formulaData }): JSX.Element => {
+  const changeTotalPropById = useFormulaBoxStore(
+    // @ts-ignore
+    (state) => state.changeTotalPropById,
+  );
+
   const [formules, setFormules] = useState<Formula[]>([]);
   const [selectedFormules, setSelectedFormules] = useState<Formula[]>([]);
   const [filteredFormules, setFilteredFormules] = useState<Formula[]>([]);
@@ -110,21 +127,17 @@ const FormulaInput: FC = (): JSX.Element => {
   );
 
   const search = (event: AutoCompleteCompleteEvent) => {
-    setTimeout(() => {
-      let filteredFormules: Formula[];
+    let filteredFormules: Formula[];
 
-      if (!event.query.trim().length) {
-        filteredFormules = [...formules];
-      } else {
-        filteredFormules = formules.filter((formula) => {
-          return formula.name
-            .toLowerCase()
-            .startsWith(event.query.toLowerCase());
-        });
-      }
+    if (!event.query.trim().length) {
+      filteredFormules = [...formules];
+    } else {
+      filteredFormules = formules.filter((formula) => {
+        return formula.name.toLowerCase().startsWith(event.query.toLowerCase());
+      });
+    }
 
-      setFilteredFormules(filteredFormules);
-    }, 250);
+    setFilteredFormules(filteredFormules);
   };
   useEffect(() => {
     if (data) {
@@ -160,7 +173,30 @@ const FormulaInput: FC = (): JSX.Element => {
     });
 
     setSelectedFormules(newFormules);
+    calcualteSelectedFormules();
   };
+
+  const calcualteSelectedFormules = () => {
+    if (selectedFormules.length === 0) {
+      changeTotalPropById(formulaData.id, 0);
+    } else {
+      const selectedFormulesValues = selectedFormules.map((item) => item.value);
+      const selectedFormulesString = selectedFormulesValues.join("");
+
+      let total = 0;
+      try {
+        total = evaluate(selectedFormulesString);
+      } catch (error) {
+        return;
+      }
+
+      changeTotalPropById(formulaData.id, total);
+    }
+  };
+
+  useEffect(() => {
+    calcualteSelectedFormules();
+  }, [selectedFormules]);
 
   return (
     <FormulaInputStyles>
@@ -172,7 +208,9 @@ const FormulaInput: FC = (): JSX.Element => {
         completeMethod={(e) => {
           search(e);
         }}
-        onChange={(e) => setSelectedFormules(e.value)}
+        onChange={(e) => {
+          setSelectedFormules(e.value);
+        }}
         style={{
           width: "100%",
         }}

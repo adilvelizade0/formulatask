@@ -4,8 +4,13 @@ import { IoMdArrowDropdown, IoMdArrowDropright } from "react-icons/io";
 import { BsFillInfoCircleFill, BsThreeDots } from "react-icons/bs";
 import { Collapse } from "react-collapse";
 import FormulaInput from "../FormulaInput/FormulaInput.component.tsx";
+import { type FormulaBox } from "../../zustand/formulas.state.ts";
 
-const Formula: FC = (): JSX.Element => {
+type Formula = {
+  formula: FormulaBox;
+};
+
+const Formula: FC<Formula> = ({ formula }): JSX.Element => {
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const toggle = () => setIsOpen(!isOpen);
 
@@ -43,11 +48,11 @@ const Formula: FC = (): JSX.Element => {
       </div>
       <div className="formula-body">
         <div className="py-2 px-3">
-          <h3>0</h3>
+          <h3>{formula.total}</h3>
         </div>
         <Collapse isOpened={isOpen}>
           <div className="formula-footer py-2 px-3 ">
-            <FormulaInput />
+            <FormulaInput formulaData={formula} />
           </div>
         </Collapse>
       </div>
