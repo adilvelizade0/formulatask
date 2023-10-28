@@ -5,11 +5,16 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./index.css";
 
 import { PrimeReactProvider } from "primereact/api";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <PrimeReactProvider>
-      <App />
-    </PrimeReactProvider>
+    <QueryClientProvider client={queryClient}>
+      <PrimeReactProvider>
+        <App />
+      </PrimeReactProvider>
+    </QueryClientProvider>
   </React.StrictMode>,
 );
