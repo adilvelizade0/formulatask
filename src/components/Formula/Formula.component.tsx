@@ -13,6 +13,10 @@ type Formula = {
 const Formula: FC<Formula> = ({ formula }): JSX.Element => {
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const toggle = () => setIsOpen(!isOpen);
+  const [isShow, setIsShow] = useState<boolean>(false);
+  const [formulaName, setFormulaName] = useState<string>(
+    "New Formula" + formula.id,
+  );
 
   return (
     <FormulaStyles className="mb-3">
@@ -31,14 +35,34 @@ const Formula: FC<Formula> = ({ formula }): JSX.Element => {
               onClick={toggle}
             />
           )}
-          <span
-            style={{
-              fontSize: "0.8rem",
-            }}
-            className="fw-bold"
-          >
-            New Formula
-          </span>
+          {isShow ? (
+            <input
+              value={formulaName}
+              onInput={(e) => {
+                setFormulaName(e.currentTarget.value);
+              }}
+              onBlur={() => {
+                setIsShow(false);
+              }}
+              onKeyUp={(e) => {
+                if (e.key === "Enter") {
+                  setIsShow(false);
+                }
+              }}
+            />
+          ) : (
+            <span
+              onClick={() => {
+                setIsShow(true);
+              }}
+              style={{
+                fontSize: "0.8rem",
+              }}
+              className="fw-bold"
+            >
+              {formulaName}
+            </span>
+          )}
         </div>
 
         <div className="d-flex align-items-center">
