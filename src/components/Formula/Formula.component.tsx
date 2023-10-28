@@ -11,7 +11,7 @@ type Formula = {
 };
 
 const Formula: FC<Formula> = ({ formula }): JSX.Element => {
-  const [isOpen, setIsOpen] = useState<boolean>(true);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const toggle = () => setIsOpen(!isOpen);
   const [isShow, setIsShow] = useState<boolean>(false);
   const [formulaName, setFormulaName] = useState<string>(

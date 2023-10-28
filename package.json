@@ -29,6 +29,7 @@
     "@types/react-collapse": "^5.0.3",
     "@types/react-dom": "^18.2.7",
     "@types/react-tag-autocomplete": "^6.3.2",
+    "@types/uuid": "^9.0.6",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
     "@vitejs/plugin-react": "^4.0.3",
