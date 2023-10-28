@@ -15,7 +15,7 @@ const Formula: FC<Formula> = ({ formula }): JSX.Element => {
   const toggle = () => setIsOpen(!isOpen);
 
   return (
-    <FormulaStyles>
+    <FormulaStyles className="mb-3">
       <div className="formula-header p-2 d-flex align-items-center justify-content-between">
         <div>
           {isOpen ? (

@@ -21,6 +21,7 @@
     "react-query": "^3.39.3",
     "react-tag-autocomplete": "^6.3.0",
     "styled-components": "^6.1.0",
+    "uuid": "^9.0.1",
     "zustand": "^4.4.4"
   },
   "devDependencies": {
